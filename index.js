@@ -14,6 +14,16 @@ cron.schedule("0 0 */12 * * *", async () => {
     await tweet(message);
 });
 
+app.get("/tweet", async (_req, res) => {
+    const message = await generateMessage();
+    await tweet(message);
+    res.status(200).json({status: "Tweeted", message});
+})
+
 app.listen(port, () => {
     console.log(`App is running on port: ${port}`);
 });
+
+process.on("uncaughtException", (error) => {
+    console.log(error);
+})
